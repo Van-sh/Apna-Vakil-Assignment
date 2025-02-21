@@ -7,7 +7,9 @@ function ErrorScreen({ message, onReload }: ErrorScreenProps) {
    return (
       <div className="w-screen h-screen flex flex-col justify-center items-center gap-3">
          <span className="text-7xl text-red-400">{message}</span>
-         <button className="btn btn-error" onClick={onReload}>Reload</button>
+         <button className="btn btn-error" onClick={onReload}>
+            Reload
+         </button>
       </div>
    );
 }
