@@ -23,7 +23,6 @@ export type TDataContext = TDataState & {
    setLoading: (isLoading: boolean) => void;
    fetchPosts: () => void;
    deletePost: (id: number) => void;
-   setError: (message: string) => void;
 };
 
 export const DataContext = createContext<TDataContext | null>(null);
