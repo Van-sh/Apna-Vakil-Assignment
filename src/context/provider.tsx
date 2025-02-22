@@ -12,7 +12,6 @@ enum ActionEnum {
    FetchPostsSuccess = "FETCH_POSTS_SUCCESS",
    FetchPostsFailure = "FETCH_POSTS_FAILURE",
    DeletePost = "DELETE_POST",
-   SetError = "SET_ERROR",
 }
 
 type SetLoadingAction = {
@@ -37,17 +36,11 @@ type DeletePostAction = {
    };
 };
 
-type SetErrorAction = {
-   type: ActionEnum.SetError;
-   payload: string;
-};
-
 type Action =
    | SetLoadingAction
    | FetchPostsSuccessAction
    | FetchPostsFailureAction
-   | DeletePostAction
-   | SetErrorAction;
+   | DeletePostAction;
 
 function dataReducer(state: TDataState, action: Action): TDataState {
    if (action.type === ActionEnum.SetLoading) {
@@ -78,13 +71,6 @@ function dataReducer(state: TDataState, action: Action): TDataState {
 export default function DataContextProvider({ children }: DataContextProviderProps) {
    const [postsState, dispatch] = useReducer(dataReducer, initialState);
 
-   const setLoading: TDataContext["setLoading"] = useCallback((isLoading: boolean) => {
-      dispatch({
-         type: ActionEnum.SetLoading,
-         payload: isLoading,
-      });
-   }, []);
-
    const fetchPosts: TDataContext["fetchPosts"] = useCallback(async () => {
       try {
          const posts = await axios.get("https://jsonplaceholder.typicode.com/posts");
@@ -97,12 +83,15 @@ export default function DataContextProvider({ children }: DataContextProviderPro
       }
    }, []);
 
-   const deletePost: TDataContext["deletePost"] = useCallback((id: number) => {
-      dispatch({ type: ActionEnum.DeletePost, payload: { id } });
+   const setLoading: TDataContext["setLoading"] = useCallback((isLoading: boolean) => {
+      dispatch({
+         type: ActionEnum.SetLoading,
+         payload: isLoading,
+      });
    }, []);
 
-   const setError: TDataContext["setError"] = useCallback((message: string) => {
-      dispatch({ type: ActionEnum.SetError, payload: message });
+   const deletePost: TDataContext["deletePost"] = useCallback((id: number) => {
+      dispatch({ type: ActionEnum.DeletePost, payload: { id } });
    }, []);
 
    const ctx: TDataContext = {
@@ -112,7 +101,6 @@ export default function DataContextProvider({ children }: DataContextProviderPro
       setLoading,
       fetchPosts,
       deletePost,
-      setError,
    };
 
    return <DataContext.Provider value={ctx}>{children}</DataContext.Provider>;

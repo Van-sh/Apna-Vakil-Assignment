@@ -11,7 +11,7 @@ function Post({ id, title, body }: PostProps) {
    }, [postsContext, id]);
 
    return (
-      <div className="card w-full bg-gray-900/75">
+      <div className="card w-full bg-base-200/75">
          <div className="card-body p-3">
             <h3 className="card-title">{title}</h3>
             <p>{body}</p>

@@ -29,7 +29,7 @@ function App() {
 
    return (
       <>
-         <main className="min-h-screen bg-gray-950 text-gray-100 flex flex-col items-center">
+         <main className="min-h-screen bg-base-100 text-base-content flex flex-col items-center">
             {isLoading && <Loader />}
             {!isLoading && !error && <Posts />}
             {error && <ErrorScreen message={error} onReload={fetchData} />}
